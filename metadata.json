@@ -1,0 +1,5 @@
+{
+  "name": "Buzz",
+  "description": "Buzz is an e-commerce platform for booking car and home services, and purchasing related accessories. The app supports localization for Sweden and Pakistan, offering services in English and Swedish with prices in SEK and PKR.",
+  "requestFramePermissions": []
+}
