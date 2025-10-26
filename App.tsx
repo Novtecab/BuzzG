@@ -216,6 +216,7 @@ const App: React.FC = () => {
             if (cat === 'vending') return item.category === 'vending';
             if (cat === 'parking') return item.category === 'parking';
             if (cat === 'handyman') return item.category === 'handyman';
+            if (cat === 'business') return item.category === 'business';
             return false;
         });
     });
@@ -281,6 +282,17 @@ const App: React.FC = () => {
   
   
   const locale = useMemo(() => (location === 'se' ? 'sv-SE' : 'en-PK'), [location]);
+  
+  const handleBrowseServicesClick = () => {
+    setView('services');
+    setActiveCategories(['home']); // Reset to default view
+  };
+
+  const handleForBusinessClick = () => {
+    setView('services');
+    setActiveCategories(['business']); // Go directly to business services
+  };
+
 
   return (
     <div className="min-h-screen font-sans text-dark dark:text-gray-200 flex flex-col">
@@ -304,7 +316,11 @@ const App: React.FC = () => {
       />
       <main className="container mx-auto px-4 py-8 flex-grow">
         {view === 'home' ? (
-          <HomePage onBrowseServices={() => setView('services')} t={t} />
+          <HomePage 
+            onBrowseServices={handleBrowseServicesClick} 
+            onForBusinessClick={handleForBusinessClick}
+            t={t} 
+          />
         ) : (
           <>
             <FilterBar

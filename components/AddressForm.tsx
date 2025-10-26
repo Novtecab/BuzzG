@@ -120,44 +120,43 @@ export const AddressForm: React.FC<AddressFormProps> = ({ t, onBack, onSubmit, c
                     </div>
                 </div>
             </div>
-            <div className="space-y-6">
-                <div className="p-4 border rounded-lg dark:border-slate-700 bg-gray-50 dark:bg-slate-700/30">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{t.contactInfo}</h3>
-                    <div className="space-y-4">
-                        <InputField id="fullName" label={t.fullName} autoComplete="name" value={address.fullName} onChange={handleChange} error={errors.fullName} />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <InputField id="email" label={t.email} type="email" autoComplete="email" value={address.email} onChange={handleChange} error={errors.email} />
-                            <InputField id="phone" label={t.phone} type="tel" autoComplete="tel" value={address.phone} onChange={handleChange} error={errors.phone} />
-                        </div>
+            
+            <div className="p-4 border rounded-lg dark:border-slate-700 bg-gray-50 dark:bg-slate-700/30">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{t.contactInfo}</h3>
+                <div className="space-y-4">
+                    <InputField id="fullName" label={t.fullName} autoComplete="name" value={address.fullName} onChange={handleChange} error={errors.fullName} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <InputField id="email" label={t.email} type="email" autoComplete="email" value={address.email} onChange={handleChange} error={errors.email} />
+                        <InputField id="phone" label={t.phone} type="tel" autoComplete="tel" value={address.phone} onChange={handleChange} error={errors.phone} />
                     </div>
                 </div>
                 
-                <div className="p-4 border rounded-lg dark:border-slate-700 bg-gray-50 dark:bg-slate-700/30">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{t.deliveryAddress}</h3>
-                    <div className="space-y-4">
-                        <InputField id="street" label={t.street} autoComplete="street-address" value={address.street} onChange={handleChange} error={errors.street} />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                           <InputField id="city" label={t.city} autoComplete="address-level2" value={address.city} onChange={handleChange} error={errors.city} />
-                           <InputField id="postalCode" label={t.postalCode} autoComplete="postal-code" value={address.postalCode} onChange={handleChange} error={errors.postalCode} />
-                        </div>
-                        <div>
-                            <label htmlFor="country" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.country}</label>
-                            <select
-                                id="country"
-                                name="country"
-                                value={address.country}
-                                onChange={handleChange}
-                                autoComplete="country"
-                                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${errors.country ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'} dark:bg-slate-700 dark:text-white dark:focus:ring-secondary dark:focus:border-secondary`}
-                                aria-invalid={!!errors.country}
-                                aria-describedby="country-error"
-                            >
-                                <option value="" disabled>{t.selectCountry}</option>
-                                <option value="Sweden">{t.countrySweden}</option>
-                                <option value="Pakistan">{t.countryPakistan}</option>
-                            </select>
-                            {errors.country && <p id="country-error" className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.country}</p>}
-                        </div>
+                <hr className="my-6 border-slate-200 dark:border-slate-600" />
+
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{t.deliveryAddress}</h3>
+                <div className="space-y-4">
+                    <InputField id="street" label={t.street} autoComplete="street-address" value={address.street} onChange={handleChange} error={errors.street} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <InputField id="city" label={t.city} autoComplete="address-level2" value={address.city} onChange={handleChange} error={errors.city} />
+                       <InputField id="postalCode" label={t.postalCode} autoComplete="postal-code" value={address.postalCode} onChange={handleChange} error={errors.postalCode} />
+                    </div>
+                    <div>
+                        <label htmlFor="country" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.country}</label>
+                        <select
+                            id="country"
+                            name="country"
+                            value={address.country}
+                            onChange={handleChange}
+                            autoComplete="country"
+                            className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${errors.country ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'} dark:bg-slate-700 dark:text-white dark:focus:ring-secondary dark:focus:border-secondary`}
+                            aria-invalid={!!errors.country}
+                            aria-describedby="country-error"
+                        >
+                            <option value="" disabled>{t.selectCountry}</option>
+                            <option value="Sweden">{t.countrySweden}</option>
+                            <option value="Pakistan">{t.countryPakistan}</option>
+                        </select>
+                        {errors.country && <p id="country-error" className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.country}</p>}
                     </div>
                 </div>
             </div>

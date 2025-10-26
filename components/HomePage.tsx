@@ -2,10 +2,11 @@ import React from 'react';
 
 interface HomePageProps {
   onBrowseServices: () => void;
+  onForBusinessClick: () => void;
   t: any;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onBrowseServices, t }) => {
+export const HomePage: React.FC<HomePageProps> = ({ onBrowseServices, onForBusinessClick, t }) => {
   return (
     <div className="relative text-center rounded-lg overflow-hidden my-8 animate-fade-in-up">
       <div 
@@ -17,12 +18,20 @@ export const HomePage: React.FC<HomePageProps> = ({ onBrowseServices, t }) => {
       <div className="relative flex flex-col items-center justify-center p-12 md:p-24">
         <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">{t.heroTitle}</h2>
         <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl drop-shadow-md">{t.heroSubtitle}</p>
-        <button
-          onClick={onBrowseServices}
-          className="bg-primary text-white font-bold py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105 hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-primary dark:bg-secondary dark:text-slate-900 dark:hover:bg-primary"
-        >
-          {t.browseServices}
-        </button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={onBrowseServices}
+            className="bg-primary text-white font-bold py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105 hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-primary dark:bg-secondary dark:text-slate-900 dark:hover:bg-primary"
+          >
+            {t.browseServices}
+          </button>
+          <button
+            onClick={onForBusinessClick}
+            className="bg-transparent border-2 border-accent text-accent font-bold py-3 px-8 rounded-full text-lg transition-all transform hover:scale-105 hover:bg-accent hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-accent"
+          >
+            {t.forBusinesses}
+          </button>
+        </div>
       </div>
     </div>
   );

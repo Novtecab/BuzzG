@@ -2,7 +2,7 @@
 export type Language = 'en' | 'sv';
 export type Location = 'se' | 'pk';
 export type Currency = 'sek' | 'pkr';
-export type Category = 'home' | 'car' | 'bike' | 'storage' | 'pickup' | 'vending' | 'parking' | 'handyman';
+export type Category = 'home' | 'car' | 'bike' | 'storage' | 'pickup' | 'vending' | 'parking' | 'handyman' | 'business';
 export type Theme = 'light' | 'dark';
 export type View = 'home' | 'services';
 export type PaymentMethod = 'cod' | 'swish' | 'card' | 'googlepay' | 'applepay';
