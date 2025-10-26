@@ -8,7 +8,7 @@ import { ServiceModal } from './components/ServiceModal';
 import { CartDrawer } from './components/CartDrawer';
 import { FlyingImage } from './components/FlyingImage';
 import { HomePage } from './components/HomePage';
-import { translations, servicesAndProducts } from './constants';
+import { translations } from './constants';
 import type { Language, Location, Item, CartItem, Category, Address, Theme, View, Order, PaymentMethod, SortOption, PriceRange, CheckoutStep, HomeSubCategory, CarSubCategory, HandymanSubCategory } from './types';
 
 const App: React.FC = () => {
@@ -42,6 +42,10 @@ const App: React.FC = () => {
   const [isContactExpanded, setIsContactExpanded] = useState(false);
   const [modalTrigger, setModalTrigger] = useState<HTMLElement | null>(null);
 
+  // State for backend data
+  const [servicesAndProducts, setServicesAndProducts] = useState<Item[]>([]);
+  const [isAppLoading, setIsAppLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -51,6 +55,36 @@ const App: React.FC = () => {
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // Fetch services from the backend on initial load
+  useEffect(() => {
+    const fetchServices = async () => {
+      setFetchError(null);
+      try {
+        // In a real app, this URL would be in an env file.
+        // We assume the backend is running and accessible at this endpoint.
+        const response = await fetch('http://localhost:3001/api/services');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setServicesAndProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch services:", error);
+        let errorMessage = "An unexpected error occurred while loading services.";
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+            errorMessage = "Network error: Could not connect to the server. Please ensure the backend server is running and there are no CORS issues.";
+        } else if (error instanceof Error) {
+            errorMessage = `Failed to load services: ${error.message}`;
+        }
+        setFetchError(errorMessage);
+      } finally {
+        setIsAppLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
@@ -84,20 +118,40 @@ const App: React.FC = () => {
     setCart((prevCart) => prevCart.filter((item) => item.cartId !== cartId));
   };
 
-  const placeOrder = (address: Address, paymentMethod: PaymentMethod) => {
-    const subtotal = cart.reduce((acc, item) => acc + item.price[currency], 0);
-    const newOrder: Order = {
-        id: `BUZZ-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`,
-        items: [...cart],
-        address,
-        subtotal,
-        paymentMethod,
-        currency,
+  const placeOrder = async (address: Address, paymentMethod: PaymentMethod) => {
+    const orderPayload = {
+      items: cart,
+      address,
+      paymentMethod,
+      currency,
     };
-    console.log('Order placed:', newOrder);
-    setConfirmedOrder(newOrder);
-    setCart([]);
-    setCheckoutStep('confirmation');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to place order on the backend.');
+      }
+      
+      const newOrder: Order = await response.json();
+
+      console.log('Order placed:', newOrder);
+      setConfirmedOrder(newOrder);
+      setCart([]);
+      setCheckoutStep('confirmation');
+
+    } catch (error) {
+      console.error('Error placing order:', error);
+      // Optionally, show an error message to the user in the UI.
+      alert('There was an error placing your order. Please try again.');
+      setCheckoutStep('payment'); // Revert to payment step on error
+    }
   };
 
   const handleCardAction = (item: Item, imageElement: HTMLImageElement, triggerElement: HTMLElement) => {
@@ -278,7 +332,7 @@ const App: React.FC = () => {
     });
 
     return items;
-  }, [activeCategories, activeSubCategories, activeCarSubCategories, activeHandymanSubCategories, language, searchTerm, priceRange, sortOption, currency]);
+  }, [servicesAndProducts, activeCategories, activeSubCategories, activeCarSubCategories, activeHandymanSubCategories, language, searchTerm, priceRange, sortOption, currency]);
   
   
   const locale = useMemo(() => (location === 'se' ? 'sv-SE' : 'en-PK'), [location]);
@@ -339,16 +393,23 @@ const App: React.FC = () => {
               currency={currency}
               t={t}
             />
-            <ServiceGrid
-              items={filteredItems}
-              onCardAction={handleCardAction}
-              onQuickPay={handleQuickPay}
-              language={language}
-              currency={currency}
-              locale={locale}
-              t={t}
-              loading={isLoading}
-            />
+            {fetchError ? (
+              <div className="text-center py-10 px-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <h3 className="text-xl font-semibold text-red-600 dark:text-red-400">Failed to load services</h3>
+                <p className="text-gray-700 dark:text-gray-300 mt-2">{fetchError}</p>
+              </div>
+            ) : (
+              <ServiceGrid
+                items={filteredItems}
+                onCardAction={handleCardAction}
+                onQuickPay={handleQuickPay}
+                language={language}
+                currency={currency}
+                locale={locale}
+                t={t}
+                loading={isAppLoading || isLoading}
+              />
+            )}
           </>
         )}
       </main>

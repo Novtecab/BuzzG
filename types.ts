@@ -9,7 +9,7 @@ export type PaymentMethod = 'cod' | 'swish' | 'card' | 'googlepay' | 'applepay';
 export type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc';
 export type PriceRange = string | null;
 export type CheckoutStep = 'cart' | 'address' | 'payment' | 'processing' | 'confirmation';
-export type HomeSubCategory = 'renovation' | 'installation' | 'demolition' | 'cleaning' | 'moving' | 'repair' | 'catering' | 'wellness' | 'pet' | 'education' | 'flooring' | 'construction';
+export type HomeSubCategory = 'renovation' | 'installation' | 'demolition' | 'cleaning' | 'moving' | 'repair' | 'catering' | 'wellness' | 'pet' | 'education' | 'flooring' | 'construction' | 'gardening' | 'seasonal' | 'it-support';
 export type CarSubCategory = 'inspection' | 'repair' | 'maintenance';
 export type HandymanSubCategory = 'small-repairs' | 'assembly' | 'painting' | 'carpentry';
 

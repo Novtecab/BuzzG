@@ -70,6 +70,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     { key: 'education', label: t.education },
     { key: 'flooring', label: t.flooring },
     { key: 'construction', label: t.construction },
+    { key: 'gardening', label: t.gardening },
+    { key: 'seasonal', label: t.seasonal },
+    { key: 'it-support', label: t.itSupport },
   ];
 
   const carSubCategoryFilters: { key: CarSubCategory; label: string }[] = [

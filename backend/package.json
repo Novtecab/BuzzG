@@ -1,0 +1,14 @@
+{
+  "name": "buzz-backend",
+  "version": "1.0.0",
+  "description": "Backend for the Buzz service platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1",
+    "dotenv": "^16.4.5"
+  }
+}
